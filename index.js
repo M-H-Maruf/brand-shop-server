@@ -1,7 +1,7 @@
 // imports
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 
 // express server initialization
@@ -42,10 +42,18 @@ async function run() {
 
         // products collection
         const productCollection = brandShopDatabase.collection('products')
+        // get products based on brand
         app.get('/products/:brand', async (req, res) => {
             const brand = req.params.brand;
             const cursor = productCollection.find({ brand: brand });
             const result = await cursor.toArray();
+            res.send(result);
+        })
+        // get product based on id
+        app.get('/product-details/:_id', async (req, res) => {
+            const _id = req.params._id;
+            const query = { _id: new ObjectId(_id) }
+            const result = await productCollection.findOne(query);
             res.send(result);
         })
 
