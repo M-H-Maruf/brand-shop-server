@@ -44,13 +44,18 @@ async function run() {
         const productCollection = brandShopDatabase.collection('products')
         app.get('/products/:brand', async (req, res) => {
             const brand = req.params.brand;
-            console.log(brand);
-            const cursor = productCollection.find({brand: brand});
+            const cursor = productCollection.find({ brand: brand });
             const result = await cursor.toArray();
             res.send(result);
         })
 
-
+        // brands collection
+        const adCollection = brandShopDatabase.collection('ads')
+        app.get('/ads', async (req, res) => {
+            const cursor = adCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
