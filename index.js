@@ -62,6 +62,27 @@ async function run() {
             const result = await productCollection.insertOne(newProduct);
             res.send(result);
         })
+        // update product on database
+        app.put('/update-product/:_id', async (req, res) => {
+            const id = req.params._id;
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true };
+            const updatedProduct = req.body;
+            const product = {
+                $set: {
+                    image: updatedProduct.image,
+                    name: updatedProduct.name,
+                    brand: updatedProduct.brand,
+                    type: updatedProduct.type,
+                    price: updatedProduct.price,
+                    description: updatedProduct.description,
+                    rating: updatedProduct.rating,
+                    details: updatedProduct.details,
+                }
+            }
+            const result = await productCollection.updateOne(filter, product, options);
+            res.send(result);
+        })
 
         // brands collection
         const adCollection = brandShopDatabase.collection('ads')
