@@ -48,6 +48,19 @@ async function run() {
             const result = await cartCollection.insertOne(newItem);
             res.send(result);
         })
+        // get all cart items
+        app.get('/my-cart', async (req, res) => {
+            const cursor = cartCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+        // delete cart item
+        app.delete('/delete-item/:_id', async (req, res) => {
+            const _id = req.params._id;
+            const query = { _id: new ObjectId(_id) }
+            const result = await cartCollection.deleteOne(query);
+            res.send(result);
+        })
 
         // products collection
         const productCollection = brandShopDatabase.collection('products')
