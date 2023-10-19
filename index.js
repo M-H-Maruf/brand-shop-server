@@ -40,6 +40,15 @@ async function run() {
             res.send(result);
         })
 
+        // cart collection
+        const cartCollection = brandShopDatabase.collection('cart')
+        // add product to cart collection
+        app.post('/add-to-cart', async (req, res) => {
+            const newItem = req.body;
+            const result = await cartCollection.insertOne(newItem);
+            res.send(result);
+        })
+
         // products collection
         const productCollection = brandShopDatabase.collection('products')
         // get products based on brand
@@ -56,13 +65,13 @@ async function run() {
             const result = await productCollection.findOne(query);
             res.send(result);
         })
-        // add product to database
+        // add product to products collection
         app.post('/add-product', async (req, res) => {
             const newProduct = req.body;
             const result = await productCollection.insertOne(newProduct);
             res.send(result);
         })
-        // update product on database
+        // update product on products collection
         app.put('/update-product/:_id', async (req, res) => {
             const id = req.params._id;
             const filter = { _id: new ObjectId(id) }
