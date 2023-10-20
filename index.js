@@ -6,7 +6,7 @@ require('dotenv').config()
 
 // express server initialization
 const app = express();
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
 // necessary middlewares
 app.use(cors());
@@ -23,11 +23,23 @@ const client = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
+// const user = new MongoClient(uri);
+// client.on('serverHeartbeatStarted', (event) => {
+//   console.log(event);
+// });
+// client.on('serverHeartbeatSucceeded', (event) => {
+//   console.log(event);
+// });
+// client.on('serverHeartbeatFailed', (event) => {
+//   console.log(event);
+// });
+
 
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        // await client.connect();
+        // await user.connect();
 
         // brand shop database
         const brandShopDatabase = client.db('brandShop');
@@ -131,6 +143,6 @@ app.get('/', (req, res) => {
 })
 
 // server listener
-app.listen(PORT, () => {
-    console.log(`Brand Shop Server is running on port: ${PORT}`);
+app.listen(port, () => {
+    console.log(`Brand Shop Server is running on port: ${port}`);
 });
